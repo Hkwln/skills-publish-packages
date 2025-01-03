@@ -1,5 +1,3 @@
-Copilot Chat
-Unique Docker Image Naming in GitHub Actions
 name: Publish to Docker
 on:
   push:
