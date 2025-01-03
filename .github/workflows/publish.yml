@@ -12,22 +12,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       # Add your test steps here if needed...
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/Hkwln/publish-packages/game
           tags: type=sha
+
       - name: Get timestamp
         id: timestamp
         run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Print timestamp
+        run: echo "Timestamp: ${{ env.timestamp }}"
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build container
         uses: docker/build-push-action@v5
         with:
@@ -35,4 +43,4 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ghcr.io/Hkwln/publish-packages/game:${{ steps.timestamp.outputs.timestamp }}
+            ghcr.io/Hkwln/publish-packages/game:${{ env.timestamp }}
