@@ -1,3 +1,5 @@
+Copilot Chat
+Unique Docker Image Naming in GitHub Actions
 name: Publish to Docker
 on:
   push:
@@ -19,9 +21,6 @@ jobs:
         with:
           images: ghcr.io/Hkwln/publish-packages/game
           tags: type=sha
-      - name: Get timestamp
-        id: timestamp
-        run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -33,6 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: |
-            ${{ steps.meta.outputs.tags }}
-            ghcr.io/Hkwln/publish-packages/game:${{ steps.timestamp.outputs.timestamp }}
+          tags: ${{ steps.meta.outputs.tags }} 
